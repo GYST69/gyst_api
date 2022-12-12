@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class MyAccountManager(BaseUserManager):
+class AccountManager(BaseUserManager):
     def create_superuser(self, email, password, **other_fields):
 
         other_fields.setdefault("is_staff", True)
@@ -22,7 +22,7 @@ class MyAccountManager(BaseUserManager):
 
         return self.create_user(email, password, **other_fields)
 
-    def create_user(self, email, user_name, password, **other_fields):
+    def create_user(self, email, password, **other_fields):
 
         if not email:
             raise ValueError(_("You must provide an email address"))
@@ -36,15 +36,13 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"), unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    start_date = models.DateTimeField(default=timezone.now)
-    about = models.TextField(_("about"), max_length=500, blank=True)
+    create_at = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    objects = MyAccountManager()
+    objects = AccountManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["user_name"]
 
     def __str__(self):
-        return self.user_name
+        return self.email
