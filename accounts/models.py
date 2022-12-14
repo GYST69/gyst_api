@@ -42,7 +42,6 @@ class Account(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["user_name"]
 
     def __str__(self):
         return self.email
