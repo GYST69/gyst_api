@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'accounts',
     'habit',
-    'colorfield'
+    'colorfield',
 ]
 
 REST_FRAMEWORK = {
