@@ -2,8 +2,6 @@ from django.db import models
 from accounts.models import Account
 from colorfield.fields import ColorField
 
-# Create your models here.
-
 
 class Habit(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)

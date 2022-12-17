@@ -1,5 +1,5 @@
 from django.contrib import admin
-from habit.models import Habit
+from habits.models import Habit
 
 
 # Register your models here.
