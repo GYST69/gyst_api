@@ -6,7 +6,7 @@ from colorfield.fields import ColorField
 class Habit(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    color = ColorField(unique=True)
+    color = ColorField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=500)
