@@ -9,7 +9,7 @@ class Habit(models.Model):
     color = ColorField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField(max_length=500)
 
     class Meta:
         ordering = ("-created_at",)
