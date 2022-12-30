@@ -13,8 +13,8 @@ class HabitCreateView(generics.CreateAPIView):
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
-    permission_classes = (IsAuthenticated,)
     serializer_class = HabitSerializer
+    permission_classes = (IsAuthenticated,)
     lookup_field = "id"
 
     def get_queryset(self):
