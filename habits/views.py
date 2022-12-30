@@ -18,3 +18,4 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     lookup_field = "id"
 
     def get_queryset(self):
+        return Habit.objects.filter(account=self.request.user)
