@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import HabitCreateView
+from .views import HabitCreateView, HabitUpdateAPIView
 
 urlpatterns = [
-    path("", HabitCreateView.as_view(), name="habit"),
-    path("<int:id>", HabitCreateView.as_view(), name="habit_update"),
+    path("", HabitCreateView.as_view(), name="habit_create"),
+    path("<int:id>", HabitUpdateAPIView.as_view(), name="habit_update"),
 ]
