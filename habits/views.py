@@ -2,7 +2,7 @@ from rest_framework import generics
 from .serializers import HabitSerializer
 from .models import Habit
 from rest_framework.permissions import IsAuthenticated
-
+generics.DestroyAPIView
 
 class HabitCreateView(generics.CreateAPIView):
     serializer_class = HabitSerializer
@@ -10,3 +10,18 @@ class HabitCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(account=self.request.user)
+
+class HabitUpdateAPIView(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = HabitSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        return Habit.objects.filter(account=self.request.user)
+class HabitDestroyAPIView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = HabitSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        return Habit.objects.filter(account=self.request.user)
