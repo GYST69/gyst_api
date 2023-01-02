@@ -13,9 +13,6 @@ class AuthViewsTests(APITestCase):
         self.user = Account.objects.create_user(
             email="lemcio@mail.com", password="eldote"
         )
-        self.response = self.client.post(self.url, self.data, format="json")
-        self.token = self.response.data["access"]
-        self.client.credentials(HTTP_AUTHORIZATION="JWT {0}".format(self.token))
 
     def test_user_is_active(self):
         self.assertEqual(self.user.is_active, 1, "Active User")
@@ -30,11 +27,12 @@ class AuthViewsTests(APITestCase):
         self.assertEqual(self.user.is_staff, 0)
 
     def test_user_obtain_JWT(self):
-        self.assertEqual(
-            self.response.status_code, status.HTTP_200_OK, self.response.content
-        )
+        response = self.client.post(self.url, self.data, format="json")
+        token = response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION="JWT {0}".format(token))
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
 
-    def test_user_is_autheticated(self):
+    def test_user_is_authenticated(self):
         self.assertEqual(self.user.is_authenticated, 1)
 
     def test_user_is_unauthorized(self):
