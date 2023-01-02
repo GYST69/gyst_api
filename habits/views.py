@@ -12,7 +12,7 @@ class HabitCreateView(generics.CreateAPIView):
         serializer.save(account=self.request.user)
 
 
-class HabitUpdateAPIView(generics.UpdateAPIView):
+class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = "id"
