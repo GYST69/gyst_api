@@ -4,5 +4,5 @@ from .views import HabitCreateView, HabitRetrieveUpdateDestroyAPIView
 
 urlpatterns = [
     path("", HabitCreateView.as_view(), name="habit_create"),
-    path("<int:id>/", HabitRetrieveUpdateDestroyAPIView.as_view(), name="habit_update"),
+    path("<int:pk>/", HabitRetrieveUpdateDestroyAPIView.as_view(), name="habit_detail"),
 ]
