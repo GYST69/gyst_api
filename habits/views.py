@@ -5,12 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 
 
 
-class HabitCreateView(generics.ListCreateAPIView):
+class HabitListCreateView(generics.ListCreateAPIView):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        # Return the list of habits for the logged-in user
         return Habit.objects.filter(account=self.request.user)  
 
     def perform_create(self, serializer):
