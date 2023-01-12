@@ -1,7 +1,6 @@
-from django.urls import path
-
-from .views import HabitCreateView
+from django.urls import include, path
+from . import views
 
 urlpatterns = [
-    path("", HabitCreateView.as_view(), name="habits"),
+    path("", views.HabitCreateView.as_view(), name="habits"),
 ]
