@@ -1,8 +1,7 @@
 from django.urls import path
-
-from .views import HabitCreateView, HabitRetrieveUpdateDestroyAPIView
+from .views import HabitListCreateView, HabitRetrieveUpdateDestroyAPIView
 
 urlpatterns = [
-    path("", HabitCreateView.as_view(), name="habit_create"),
+    path("", HabitListCreateView.as_view(), name="habits"),
     path("<int:pk>/", HabitRetrieveUpdateDestroyAPIView.as_view(), name="habit_detail"),
 ]
