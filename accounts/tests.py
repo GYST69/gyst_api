@@ -19,8 +19,6 @@ class AuthViewsTests(APITestCase):
         register_url = reverse("register_user")
         response = self.client.post(register_url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertIn("access", response.data)
-        self.assertIn("refresh", response.data)
 
     def test_user_is_active(self):
         self.assertEqual(self.user.is_active, 1)
@@ -37,6 +35,8 @@ class AuthViewsTests(APITestCase):
     def test_user_obtain_JWT(self):
         response = self.client.post(self.url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
 
     def test_user_is_unauthorized(self):
         response = self.client.post(
