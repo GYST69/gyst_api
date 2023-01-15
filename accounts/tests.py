@@ -14,6 +14,14 @@ class AuthViewsTests(APITestCase):
             email="lemcio@mail.com", password="eldote"
         )
 
+    def test_register_user(self):
+        data = {"email": "johan@johanveryhard.com", "password": "uhaveryhard12"}
+        register_url = reverse("register_user")
+        response = self.client.post(register_url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+
     def test_user_is_active(self):
         self.assertEqual(self.user.is_active, 1)
 
@@ -28,13 +36,7 @@ class AuthViewsTests(APITestCase):
 
     def test_user_obtain_JWT(self):
         response = self.client.post(self.url, self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
-
-    def test_user_is_authenticated(self):
-        response = self.client.post(self.url, self.data, format="json")
-        token = response.data["access"]
-        # self.client.credentials(HTTP_AUTHORIZATION="JWT {0}".format(token))
-        user = self.client.force_authenticate(token=token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_is_unauthorized(self):
         response = self.client.post(
