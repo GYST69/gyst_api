@@ -4,7 +4,6 @@ from .models import Habit
 from rest_framework.permissions import IsAuthenticated
 
 
-
 class HabitListCreateView(generics.ListCreateAPIView):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
