@@ -16,3 +16,14 @@ class Habit(models.Model):
 
     def __str__(self):
         return self.name
+
+class HabitInstance(models.Model):
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    date = models.DateField()
+    
+    class Meta:
+        ordering = ("-date",)
+
+    def __str__(self):
+        return f'{self.habit.name} completed by {self.account} on {self.date}'
