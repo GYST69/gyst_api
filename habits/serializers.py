@@ -7,7 +7,8 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habit
         fields = ("id", "name", "color", "description")
 
+
 class HabitInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = HabitInstance
-        fields = ('id', 'habit_id', 'completed_at')
+        fields = ("id", "habit_id", "completed_at")
