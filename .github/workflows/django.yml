@@ -6,14 +6,35 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: psf/black@stable
+      
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: test
+        ports: ["3306:3306"]
+    steps:
     - uses: actions/checkout@v3
     - name: Install poetry
       run: pipx install poetry
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.8'
         cache: 'poetry'
     - name: Install dependencies
       run: poetry install --no-interaction
-    - name: Run Black
-      run: poetry run black .
+    - name: Run Tests
+      run: poetry run python3 manage.py test --noinput
+      env:
+        DBENGINE: django.db.backends.mysql
+        DBNAME: test
+        DBUSER: root
+        DBPASSWORD: test
+        DBHOST: 127.0.0.1
+        DBPORT: 3306
