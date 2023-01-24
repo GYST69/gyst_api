@@ -36,5 +36,7 @@ jobs:
           cache: "poetry"
       - name: Install dependencies
         run: poetry install --no-interaction
+      - name: Make Migrations
+        run: poetry run python3 manage.py makemigrations
       - name: Run Tests
         run: poetry run python3 manage.py test --noinput
