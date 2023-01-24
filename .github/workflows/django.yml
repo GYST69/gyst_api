@@ -7,4 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Install poetry
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+        cache: 'poetry'
+    - run: poetry install
