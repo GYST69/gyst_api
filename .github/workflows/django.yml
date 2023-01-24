@@ -13,4 +13,7 @@ jobs:
       with:
         python-version: '3.9'
         cache: 'poetry'
-    - run: poetry install
+    - name: Install dependencies
+    - run: poetry install --no-interaction
+    - name: Run Black
+    - run: poetry run black .
