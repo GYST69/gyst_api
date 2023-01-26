@@ -17,12 +17,13 @@ class Habit(models.Model):
     def __str__(self):
         return self.name
 
+
 class HabitInstance(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
-    completed_at = models.DateField(auto_now = True)
-    
+    completed_at = models.DateField(auto_now=True)
+
     class Meta:
         ordering = ("-completed_at",)
 
     def __str__(self):
-        return f'{self.habit.name} completed by {self.habit.account} on {self.completed_at}'
+        return f"{self.habit.name} completed by {self.habit.account} on {self.completed_at}"
