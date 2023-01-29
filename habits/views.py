@@ -1,6 +1,6 @@
 from rest_framework import status
 from .serializers import HabitSerializer, HabitInstanceSerializer
-from .models import Habit
+from .models import Habit, HabitInstance
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .filters import HabitInstanceFilterBackend
