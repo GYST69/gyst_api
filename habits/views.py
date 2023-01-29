@@ -36,7 +36,7 @@ class HabitInstanceCreateView(generics.CreateAPIView):
             completed_at = date.today().strftime("%Y-%m-%d")
         habit_instance = HabitInstance.objects.filter(
             habit_id=habit_id, completed_at=completed_at
-            )
+        )
         if habit_instance.exists():
             raise ValidationError("Habit instance already exists for this date")
         serializer.save(habit_id=habit_id)
