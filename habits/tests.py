@@ -46,9 +46,7 @@ class TestAPIViews(APITestCase):
 
     def test_authenticated_habit_patch(self):
         data = {"description": "This is test for update"}
-        response = self.client.patch(
-            self.habit_url_DetailAPIView,
-            data)
+        response = self.client.patch(self.habit_url_DetailAPIView, data)
         habit_from_database = Habit.objects.filter(name="test").first()
         habit_from_database_serialized = HabitSerializer(instance=habit_from_database)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
