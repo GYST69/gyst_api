@@ -1,6 +1,8 @@
+from datetime import date
+from django.core.exceptions import ValidationError
 from rest_framework import generics
 from .serializers import HabitSerializer, HabitInstanceSerializer
-from .models import Habit
+from .models import Habit, HabitInstance
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -29,4 +31,10 @@ class HabitInstanceCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         habit_id = self.request.data.get("habit_id")
+        completed_at = self.request.data.get("completed_at")
+        if not completed_at:
+            completed_at = date.today().strftime("%Y-%m-%d")
+        habit_instance = HabitInstance.objects.filter(habit_id=habit_id, completed_at=completed_at)
+        if habit_instance.exists():
+            raise ValidationError("Habit instance already exists for this date")
         serializer.save(habit_id=habit_id)
