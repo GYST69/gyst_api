@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .serializers import HabitSerializer, HabitInstanceSerializer
-from .models import Habit, HabitInstance
+from .models import Habit
 from rest_framework.permissions import IsAuthenticated
 
 
