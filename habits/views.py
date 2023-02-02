@@ -27,7 +27,7 @@ class HabitInstanceListAPIView(generics.ListAPIView):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
     queryset = HabitInstance.objects.all()
-    filterset_fields = ['completed_at']
+    filterset_fields = ["completed_at"]
 
     def get_queryset(self):
         return queryset.filter(habit__account=self.request.user)
