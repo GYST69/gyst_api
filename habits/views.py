@@ -19,7 +19,8 @@ class HabitInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
     queryset = HabitInstance.objects.all()
+    filterset_fields = ["completed_at"]
 
 
     def get_queryset(self):
-
+        return HabitInstance.objects.filter(account=self.request.user)
