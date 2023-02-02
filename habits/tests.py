@@ -21,14 +21,14 @@ class TestAPIViews(APITestCase):
         self.client.force_authenticate(user=self.user)
         self.serializer = HabitSerializer(instance=self.habit)
 
-    def test_authenticated_habit_retrieve(self):
+    def test_habit_retrieve(self):
         response = self.client.get(
             self.habit_url_DetailAPIView,
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, self.serializer.data)
 
-    def test_authenticated_habit_create(self):
+    def test_habit_create(self):
         data = {
             "account": self.user,
             "name": "test_create",
@@ -44,7 +44,7 @@ class TestAPIViews(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, habit_from_database_serialized.data)
 
-    def test_authenticated_habit_patch(self):
+    def test_habit_patch(self):
         data = {"description": "This is test for update"}
         response = self.client.patch(self.habit_url_DetailAPIView, data)
         habit_from_database = Habit.objects.filter(name="test").first()
@@ -52,14 +52,14 @@ class TestAPIViews(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, habit_from_database_serialized.data)
 
-    def test_authenticated_habit_delete(self):
+    def test_habit_delete(self):
         response = self.client.delete(
             self.habit_url_DetailAPIView,
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Habit.objects.filter(id=self.habit.id).exists())
 
-    def test_authenticated_habit_list(self):
+    def test_habit_list(self):
         for habit_number in range(3):
             Habit.objects.create(
                 account=self.user,
