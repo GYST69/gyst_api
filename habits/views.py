@@ -26,10 +26,14 @@ class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 class HabitInstanceListAPIView(generics.ListAPIView):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = HabitInstance.objects.all()
+    filterset_fields = ['completed_at']
 
     def get_queryset(self):
-        date_getted_from_url = self.kwargs["completed_at"]
-        queryset = HabitInstance.objects.filter(
-            completed_at=date_getted_from_url
-        ).filter(habit__account=self.request.user)
-        return queryset
+        return queryset.filter(habit__account=self.request.user)
+
+    # def get_queryset(self):
+    #     date_getted_from_url = self.request.query_params.get('completed_at')
+    #     queryset = queryset.filter(completed_at=date_getted_from_url
+    #     ).filter(habit__account=self.request.user)
+    #     return queryset
