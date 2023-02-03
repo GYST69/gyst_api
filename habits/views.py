@@ -2,11 +2,14 @@ from rest_framework import generics
 from .serializers import HabitSerializer, HabitInstanceSerializer
 from .models import Habit, HabitInstance
 from rest_framework.permissions import IsAuthenticated
-
-
-class HabitListCreateView(generics.ListCreateAPIView):
+from rest_framework import viewsets
+from .filters import HabitInstanceFilterBackend
+from rest_framework.response import Response
+from datetime import datetime
+class HabitViewSet(viewsets.ModelViewSet):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = Habit.objects.all()
 
     def get_queryset(self):
         return Habit.objects.filter(account=self.request.user)
@@ -14,26 +17,15 @@ class HabitListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(account=self.request.user)
 
-
-class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = HabitSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Habit.objects.filter(account=self.request.user)
-
-
-class HabitInstanceListAPIView(generics.ListAPIView):
+class HabitInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
     queryset = HabitInstance.objects.all()
-    filterset_fields = ["completed_at"]
+    filter_backends = [HabitInstanceFilterBackend]
 
-    def get_queryset(self):
-        return queryset.filter(habit__account=self.request.user)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many = True)
+        return Response(serializer.data)
 
-    # def get_queryset(self):
-    #     date_getted_from_url = self.request.query_params.get('completed_at')
-    #     queryset = queryset.filter(completed_at=date_getted_from_url
-    #     ).filter(habit__account=self.request.user)
-    #     return queryset
+
