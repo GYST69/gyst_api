@@ -3,7 +3,9 @@ from .serializers import HabitSerializer, HabitInstanceSerializer
 from .models import Habit, HabitInstance
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
-
+from .filters import HabitInstanceFilterBackend
+from rest_framework.response import Response
+from datetime import datetime
 class HabitViewSet(viewsets.ModelViewSet):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
@@ -19,8 +21,11 @@ class HabitInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
     queryset = HabitInstance.objects.all()
-    filterset_fields = ["completed_at"]
+    filter_backends = [HabitInstanceFilterBackend]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many = True)
+        return Response(serializer.data)
 
 
-    def get_queryset(self):
-        return HabitInstance.objects.filter(account=self.request.user)

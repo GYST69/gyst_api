@@ -1,9 +1,6 @@
 from django.urls import path, include
-from .views import HabitListCreateView, HabitRetrieveUpdateDestroyAPIView
-from .routers import router
-
+from .routers import habit_router, habit_instance_router
 urlpatterns = [
-    # path("", HabitListCreateView.as_view(), name="habits"),
-    # path("<int:pk>/", HabitRetrieveUpdateDestroyAPIView.as_view(), name="habit_detail"),
-    path("", include(router.urls))
+    path("instances/", include(habit_instance_router.urls)),
+    path("", include(habit_router.urls)),
 ]
