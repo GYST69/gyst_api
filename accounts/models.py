@@ -10,7 +10,6 @@ from django.utils.translation import gettext_lazy as _
 
 class AccountManager(BaseUserManager):
     def create_superuser(self, email, password, **other_fields):
-
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
@@ -23,7 +22,6 @@ class AccountManager(BaseUserManager):
         return self.create_user(email, password, **other_fields)
 
     def create_user(self, email, password, **other_fields):
-
         if not email:
             raise ValueError(_("You must provide an email address"))
 
