@@ -6,6 +6,8 @@ from rest_framework import viewsets
 from .filters import HabitInstanceFilterBackend
 from rest_framework.response import Response
 from datetime import datetime
+
+
 class HabitViewSet(viewsets.ModelViewSet):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
@@ -17,6 +19,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(account=self.request.user)
 
+
 class HabitInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
@@ -25,7 +28,5 @@ class HabitInstanceViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.queryset)
-        serializer = self.get_serializer(queryset, many = True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-
