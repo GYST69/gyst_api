@@ -25,6 +25,7 @@ class HabitInstance(models.Model):
 
     class Meta:
         ordering = ("-completed_at",)
+        unique_together = ("habit", "completed_at")
 
     def __str__(self):
         return f"{self.habit.name} completed by {self.habit.account} on {self.completed_at}"
