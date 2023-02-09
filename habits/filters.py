@@ -7,5 +7,4 @@ class HabitInstanceFilterBackend(BaseFilterBackend):
         completed_at = request.query_params.get("completed_at", None)
         if completed_at:
             queryset = queryset.filter(completed_at=completed_at)
-
         return queryset

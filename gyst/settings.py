@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "accounts",
     "habits",
     "colorfield",
-    "django_filters",
 ]
 
 REST_FRAMEWORK = {
