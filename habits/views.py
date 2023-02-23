@@ -1,12 +1,17 @@
 from rest_framework import generics
-from .serializers import HabitSerializer
-from .models import Habit
+from .serializers import HabitSerializer, HabitInstanceSerializer
+from .models import Habit, HabitInstance
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+from .filters import HabitInstanceFilterBackend
+from rest_framework.response import Response
+from datetime import datetime
 
 
-class HabitListCreateView(generics.ListCreateAPIView):
+class HabitViewSet(viewsets.ModelViewSet):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = Habit.objects.all()
 
     def get_queryset(self):
         return Habit.objects.filter(account=self.request.user)
@@ -15,9 +20,13 @@ class HabitListCreateView(generics.ListCreateAPIView):
         serializer.save(account=self.request.user)
 
 
-class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = HabitSerializer
+class HabitInstanceViewSet(viewsets.ModelViewSet):
+    serializer_class = HabitInstanceSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = HabitInstance.objects.all()
+    filter_backends = [HabitInstanceFilterBackend]
 
-    def get_queryset(self):
-        return Habit.objects.filter(account=self.request.user)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
