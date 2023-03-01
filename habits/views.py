@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .serializers import HabitSerializer, HabitInstanceSerializer
-from .models import Habit, HabitInstance
+from .serializers import HabitSerializer, HabitInstanceSerializer, HabitLevelSerializer
+from .models import Habit, HabitInstance, HabitLevel
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .filters import HabitInstanceFilterBackend
@@ -19,6 +19,13 @@ class HabitViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(account=self.request.user)
 
+
+class HabitLevelViewSets(viewsets.ModelViewSet):
+    serializer_class = HabitLevelSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Habit.objects.filter(account=self.request.user).filter(id=Habit.root_id)
 
 class HabitInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = HabitInstanceSerializer
