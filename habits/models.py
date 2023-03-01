@@ -4,13 +4,21 @@ from colorfield.fields import ColorField
 
 
 class Habit(models.Model):
+    LEVEL_CHOOICES=(
+        ('easy', 'easy'),
+        ('moderate','moderate'),
+        ('hard','hard'),
+    )
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     color = ColorField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=500, blank=True)
-
+    root_id = models.IntegerField(default=None)
+    habit_level = models.CharField(max_length=10,
+                                   choices=LEVEL_CHOOICES,
+                                   default='moderate')
     class Meta:
         ordering = ("-created_at",)
 
