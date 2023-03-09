@@ -38,12 +38,12 @@ class Habit(models.Model):
             if self.habit_level == "easy":
                 color_conversion = list(Color(self.color).get_hsl())
                 color_conversion[2] =0.2
-                color_conversion[1] =0.5
+                color_conversion[1] =0.4
                 self.color = color_conversion
             elif self.habit_level == "hard":
                 color_conversion = list(Color(self.color).get_hsl())
                 color_conversion[2] = 0.2
-                color_conversion[1] = 0.5
+                color_conversion[1] = 0.4
                 self.color = color_conversion
         super().save(force_insert, force_update, using, update_fields)
 
