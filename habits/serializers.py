@@ -1,4 +1,6 @@
 from datetime import date
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 from rest_framework import serializers
 from .models import Habit, HabitInstance
 
@@ -19,6 +21,10 @@ class HabitInstanceSerializer(serializers.ModelSerializer):
     def validate(self, data):
         print(data)
         habit_id = data["habit_id"]
+        try:
+            get_object_or_404(Habit, id=habit_id)
+        except Http404:
+            raise serializers.ValidationError("Habit not found with the given id")
         completed_at = data.get("completed_at", date.today())
         if HabitInstance.objects.filter(
             habit_id=habit_id, completed_at=completed_at
