@@ -12,7 +12,6 @@ class HabitSerializer(serializers.ModelSerializer):
         root_id = attrs.get("root_id")
         habit_level = attrs.get("habit_level")
         if root_id is not None and habit_level is not None:
-            # Check if a habit with the same root_id and habit_level already exists
             queryset = Habit.objects.filter(root_id=root_id, habit_level=habit_level)
             if self.instance is not None:
                 queryset = queryset.exclude(pk=self.instance.pk)

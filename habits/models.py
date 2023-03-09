@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import Account
 from colorfield.fields import ColorField
 from rest_framework.validators import UniqueValidator
+from colour import Color
 
 
 class Habit(models.Model):
@@ -19,6 +20,7 @@ class Habit(models.Model):
     root_id = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.DO_NOTHING
     )
+    # do przemyslenia models.Caasscade
     habit_level = models.CharField(
         max_length=10, choices=LEVEL_CHOOICES, default="moderate"
     )
@@ -28,6 +30,22 @@ class Habit(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if self.root_id is not None:
+            if self.habit_level == "easy":
+                color_conversion = list(Color(self.color).get_hsl())
+                color_conversion[2] =0.2
+                color_conversion[1] =0.5
+                self.color = color_conversion
+            elif self.habit_level == "hard":
+                color_conversion = list(Color(self.color).get_hsl())
+                color_conversion[2] = 0.2
+                color_conversion[1] = 0.5
+                self.color = color_conversion
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class HabitInstance(models.Model):
