@@ -19,7 +19,6 @@ class HabitInstanceSerializer(serializers.ModelSerializer):
         fields = ("id", "habit_id", "completed_at")
 
     def validate(self, data):
-        print(data)
         habit_id = data["habit_id"]
         try:
             get_object_or_404(Habit, id=habit_id)
