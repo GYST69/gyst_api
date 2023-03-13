@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .filters import HabitInstanceFilterBackend
 from rest_framework.response import Response
+from datetime import datetime
 
 
 class HabitViewSet(viewsets.ModelViewSet):
