@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 from accounts.models import Account
 from colorfield.fields import ColorField
 
@@ -20,10 +21,11 @@ class Habit(models.Model):
 
 class HabitInstance(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
-    completed_at = models.DateField(auto_now=True)
+    completed_at = models.DateField(default=date.today)
 
     class Meta:
         ordering = ("-completed_at",)
+        unique_together = ("habit", "completed_at")
 
     def __str__(self):
         return f"{self.habit.name} completed by {self.habit.account} on {self.completed_at}"
