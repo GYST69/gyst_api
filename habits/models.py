@@ -3,6 +3,7 @@ from accounts.models import Account
 from colorfield.fields import ColorField
 from rest_framework.validators import UniqueValidator
 from colour import Color
+import colorsys
 
 
 class Habit(models.Model):
@@ -35,17 +36,16 @@ class Habit(models.Model):
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         if self.root_id is not None:
-            if self.habit_level == "easy":
-                color_conversion = list(Color(self.color).get_hsl())
-                color_conversion[2] =0.2
-                color_conversion[1] =0.4
-                self.color = color_conversion
-            elif self.habit_level == "hard":
-                color_conversion = list(Color(self.color).get_hsl())
-                color_conversion[2] = 0.2
-                color_conversion[1] = 0.4
-                self.color = color_conversion
+            root_habit = Habit.objects.get(id=self.root_id.id)
+            self.color = root_habit.color
+            color_conversion = list(Color(self.color).get_hsl())
+            if Habit.LEVEL_CHOOICES[0][0] == self.habit_level:
+                color_conversion[2] += 0.1
+            elif Habit.LEVEL_CHOOICES[2][0] == self.habit_level:
+                color_conversion[2] -= 0.1
+            self.color = Color(hsl=color_conversion).hex
         super().save(force_insert, force_update, using, update_fields)
+        # W momencie kiedy użytkownik poda jaki ma mięc kolor, ta metoda i tak nadpisuje color z roota
 
 
 class HabitInstance(models.Model):
