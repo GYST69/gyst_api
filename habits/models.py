@@ -18,10 +18,9 @@ class Habit(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=500, blank=True)
-    root_id = models.ForeignKey(
+    root = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.DO_NOTHING
     )
-    # do przemyslenia models.Caasscade
     habit_level = models.CharField(
         max_length=10, choices=LEVEL_CHOOICES, default="moderate"
     )
@@ -35,8 +34,8 @@ class Habit(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        if self.root_id is not None:
-            root_habit = Habit.objects.get(id=self.root_id.id)
+        if self.root is not None:
+            root_habit = Habit.objects.get(id=self.root.id)
             self.color = root_habit.color
             color_conversion = list(Color(self.color).get_hsl())
             if Habit.LEVEL_CHOOICES[0][0] == self.habit_level:
@@ -46,6 +45,8 @@ class Habit(models.Model):
             self.color = Color(hsl=color_conversion).hex
         super().save(force_insert, force_update, using, update_fields)
         # W momencie kiedy użytkownik poda jaki ma mięc kolor, ta metoda i tak nadpisuje color z roota
+        # if color == None  uzytkownik nie podaje
+        #   else color =self.color uzytkownik podaje
 
 
 class HabitInstance(models.Model):
