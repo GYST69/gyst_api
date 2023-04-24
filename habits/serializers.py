@@ -9,9 +9,9 @@ class HabitSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "color", "description", "root", "habit_level")
 
     def validate(self, attrs):
-        root_id = attrs.get("root")
+        root = attrs.get("root")
         habit_level = attrs.get("habit_level")
-        if root_id is not None and habit_level is not None:
+        if root is not None and habit_level is not None:
             queryset = Habit.objects.filter(root=root, habit_level=habit_level)
             if self.instance is not None:
                 queryset = queryset.exclude(pk=self.instance.pk)
