@@ -4,7 +4,6 @@ from accounts.models import Account
 from colorfield.fields import ColorField
 from rest_framework.validators import UniqueValidator
 from colour import Color
-import colorsys
 
 
 class Habit(models.Model):
