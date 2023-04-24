@@ -17,9 +17,7 @@ class Habit(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=500, blank=True)
     visible = models.BooleanField(default=True)
-    root_id = models.ForeignKey(
-        "self", null=True, blank=True, on_delete=models.DO_NOTHING
-    )
+    root = models.ForeignKey("self", null=True, blank=True, on_delete=models.DO_NOTHING)
     habit_level = models.CharField(
         max_length=10, choices=LEVEL_CHOOICES, default="moderate"
     )
