@@ -2,7 +2,6 @@ from django.db import models
 from datetime import date
 from accounts.models import Account
 from colorfield.fields import ColorField
-from rest_framework.validators import UniqueValidator
 
 
 class Habit(models.Model):
@@ -17,12 +16,17 @@ class Habit(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=500, blank=True)
+    visible = models.BooleanField(default=True)
     root_id = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.DO_NOTHING
     )
     habit_level = models.CharField(
         max_length=10, choices=LEVEL_CHOOICES, default="moderate"
     )
+
+    def delete(self, *args, **kwargs):
+        self.visible = False
+        self.save()
 
     class Meta:
         ordering = ("-created_at",)
@@ -32,7 +36,7 @@ class Habit(models.Model):
 
 
 class HabitInstance(models.Model):
-    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
+    habit = models.ForeignKey(Habit, on_delete=models.DO_NOTHING)
     completed_at = models.DateField(default=date.today)
 
     class Meta:

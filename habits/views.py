@@ -5,7 +5,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .filters import HabitInstanceFilterBackend
 from rest_framework.response import Response
-from datetime import datetime
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -14,7 +13,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     queryset = Habit.objects.all()
 
     def get_queryset(self):
-        return Habit.objects.filter(account=self.request.user)
+        return Habit.objects.filter(account=self.request.user, visible=True)
 
     def perform_create(self, serializer):
         serializer.save(account=self.request.user)
