@@ -5,7 +5,6 @@ from colorfield.fields import ColorField
 from colour import Color
 
 
-
 class Habit(models.Model):
     LEVEL_CHOOICES = (
         ("easy", "easy"),
