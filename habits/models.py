@@ -44,9 +44,6 @@ class Habit(models.Model):
                 color_conversion[2] -= 0.1
             self.color = Color(hsl=color_conversion).hex
         super().save(force_insert, force_update, using, update_fields)
-        # W momencie kiedy użytkownik poda jaki ma mięc kolor, ta metoda i tak nadpisuje color z roota
-        # if color == None  uzytkownik nie podaje
-        #   else color =self.color uzytkownik podaje
 
 
 class HabitInstance(models.Model):
