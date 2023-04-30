@@ -73,4 +73,4 @@ class TestAPIViews(APITestCase):
             self.habit_url_viewsets_id,
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Habit.objects.filter(id=self.habit.id).exists())
+        self.assertTrue(Habit.objects.filter(id=self.habit.id, visible=False).exists())
